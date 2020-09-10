@@ -20,7 +20,7 @@ public class ThreadedGreeting {
 	
 	//1. Create a new class called ThreadedGreeter that implements the Runnable interface.
 	//   Be sure to implement the run() method.
-	
+
 	//2. Give the ThreadedGreeter class a  member variable of the integer type and a constructor
 	//   to initialize the member variable to a custom value.
 	
@@ -33,7 +33,7 @@ public class ThreadedGreeting {
 	public static void main(String[] args) {
 		//5. Create the first thread and initialize it with an object of the ThreadedGreeter class.
 		//   The ThreadedGreeter object should be initialized with 1.
-		Thread t = new Thread(new ThreadedGreeter(1));
+		Thread t = new Thread(new ThreadGreeter(1));
 		
 		//6. Start and join the thread. Did you get the required output?
 		t.start();
