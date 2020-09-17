@@ -15,11 +15,18 @@ package _05_Synchronized_Swimming;
  */
 public class SynchronizedSwimming {
 	private static final Object swimmingPool = new Object();
-
+	public boolean poolfilled=false;
+	
 	public static void main(String[] args) {
 		Swimmer a = new Swimmer("John");
 		Swimmer b = new Swimmer("Sally");
 		a.start();
+		try {
+			Thread.sleep(2100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		b.start();
 	}
 
