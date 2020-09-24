@@ -15,52 +15,39 @@ printed in order.
   
 */
 
-public class SynchedSplitLoops {
-	static int counter = 0;
+public class SynchedSplitLoops implements Runnable{
 	static Object threadLock = new Object();
-	
+	static int totalThreads = 0;
+	private static int thread;
+
 	public static void main(String[] args) {
-		Thread t1 = new Thread(() -> {
-			synchronized (threadLock) {
-			for(int i = 0; i < 100000; i++) {
-				counter++;
-				threadLock.notify();
-				try {
-					threadLock.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			}
-		});
-		
-		Thread t2 = new Thread(() -> {
-			for(int i = 0; i < 100000; i++) {
-				try {
-					synchronized (threadLock) {
-					threadLock.wait();
-					System.out.println(counter);
-					threadLock.notify();
-					threadLock.wait();
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		});
-		
-		t1.start();
-		t2.start();
-		
-		try {
-			t1.join();
-			t2.join();
-		} catch (InterruptedException e) {
-			System.err.println("Could not join threads");
+		SynchedSplitLoops s=new SynchedSplitLoops();
+		s.run();
+		for (int i = 0; i < 10000; i++) {
+			totalThreads++;
 		}
-		
 	}
-}
+	
+	private static void setthread(int totalThreads2) {
+		// TODO Auto-generated method stub
+		thread=totalThreads2;
+	}
+
+	public void run() {
+		synchronized(threadLock) { //locks this block of code if another thread is using threadLock
+			setthread(totalThreads);
+			threadLock.notify(); //let other threads waiting on threadLock know that they can start
+			try {
+				threadLock.wait(); //pauses execution until another thread calls notify using threadLock
+			} catch (InterruptedException e) {
+				System.out.println("error!");
+			}
+			
+			System.out.println(thread);
+			threadLock.notify(); //let other threads waiting on threadLock know that they can start
+			try {
+				threadLock.wait(); //pauses execution until another thread calls notify using threadLock
+			} catch (InterruptedException e) {
+				System.out.println("error!");
+			}
+		}}}
