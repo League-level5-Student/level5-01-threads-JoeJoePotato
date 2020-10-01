@@ -34,19 +34,19 @@ public class SynchedSplitLoops implements Runnable{
 	}
 
 	public void run() {
-		synchronized(threadLock) { //locks this block of code if another thread is using threadLock
+		synchronized(threadLock) { 
 			setthread(totalThreads);
-			threadLock.notify(); //let other threads waiting on threadLock know that they can start
+			threadLock.notify(); 
 			try {
-				threadLock.wait(); //pauses execution until another thread calls notify using threadLock
+				threadLock.wait(); 
 			} catch (InterruptedException e) {
 				System.out.println("error!");
 			}
 			
 			System.out.println(thread);
-			threadLock.notify(); //let other threads waiting on threadLock know that they can start
+			threadLock.notify(); 
 			try {
-				threadLock.wait(); //pauses execution until another thread calls notify using threadLock
+				threadLock.wait(); 
 			} catch (InterruptedException e) {
 				System.out.println("error!");
 			}
